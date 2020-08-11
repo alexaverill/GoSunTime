@@ -1,17 +1,13 @@
 package main
 
 import (
-	"math"
+	"math/big"
 	"testing"
 )
 
 func isEqualEnough(a float64, b float64) bool {
-	tolerance := .0001
-	diff := math.Abs(a - b)
-	if diff < tolerance {
-		return true
-	}
-	return false
+	result := big.NewFloat(a).Cmp(big.NewFloat(b))
+	return result == 0
 }
 func TestCalculateDayOfYear(t *testing.T) {
 	var day = calculateDayOfYear(6, 25, 1990)
@@ -26,7 +22,18 @@ func TestCalculateDayOfYear(t *testing.T) {
 func TestLongitudeHour(t *testing.T) {
 	var lngHour = (-74.3) / 15
 	var actual = LongitudeHourToTime(176, lngHour, false)
-	if isEqualEnough(actual, 176.456) {
+	output := isEqualEnough(actual, 176.456)
+	t.Log(output)
+	if !isEqualEnough(actual, 176.45638) {
 		t.Errorf("time is actually: %f", actual)
+	}
+}
+
+func testSunLong(t *testing.T) {
+	var mean = 176.456
+	var expected = 93.56
+	var actual = SunLongitude(mean)
+	if !isEqualEnough(actual, expected) {
+		t.Errorf("Sun Longitude is wrong: %f", actual)
 	}
 }
