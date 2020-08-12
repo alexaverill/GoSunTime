@@ -31,5 +31,15 @@ func SunLongitude(meanAnomaly float64) float64 {
 	return lng
 }
 func RightAscenion(trueLong float64) float64 {
-	return math.Atan(.9176 * math.Tan(trueLong*math.Pi/180) * 180 / math.Pi)
+	RA := math.Atan(.9176 * math.Tan(trueLong*math.Pi/180) * 180 / math.Pi)
+	if RA > 360 {
+		RA -= 360
+	} else if RA < 0 {
+		RA += 360
+	}
+	//convert to quadrant of sun
+	Lquad := (math.Floor(trueLong / float64(90))) * float64(90)
+	RAquad := (math.Floor(RA / float64(90))) * float64(90)
+	RA = RA + (Lquad - RAquad)
+	return RA / float64(15)
 }

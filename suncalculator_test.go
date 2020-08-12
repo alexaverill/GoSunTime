@@ -49,7 +49,7 @@ func testSunLong(t *testing.T) {
 }
 func testRightAscenion(t *testing.T) {
 	var sunLong = 93.56
-	expected := -86.11412
+	expected := 6.259
 	actual := RightAscenion(sunLong)
 	if !isEqualEnough(actual, expected) {
 		t.Errorf("Right Accension is incorrect actual: %f", actual)
