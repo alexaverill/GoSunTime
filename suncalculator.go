@@ -30,3 +30,6 @@ func SunLongitude(meanAnomaly float64) float64 {
 	}
 	return lng
 }
+func RightAscenion(trueLong float64) float64 {
+	return math.Atan(.9176 * math.Tan(trueLong*math.Pi/180) * 180 / math.Pi)
+}
