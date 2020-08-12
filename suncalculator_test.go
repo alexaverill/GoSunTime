@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math"
 	"testing"
 )
@@ -10,7 +11,8 @@ func isEqualEnough(a float64, b float64) bool {
 	var absB = math.Abs(b)
 	var diff = math.Abs(a - b)
 	var min float64 = 1e-9
-	var e float64 = 1e-5
+	var e float64 = .001
+
 	if a == b {
 		return true
 	}
@@ -39,7 +41,7 @@ func TestLongitudeHour(t *testing.T) {
 	}
 }
 
-func testSunLong(t *testing.T) {
+func TestSunLong(t *testing.T) {
 	var mean = 176.456
 	var expected = 93.56
 	var actual = SunLongitude(mean)
@@ -47,12 +49,68 @@ func testSunLong(t *testing.T) {
 		t.Errorf("Sun Longitude is wrong: %f", actual)
 	}
 }
-func testRightAscenion(t *testing.T) {
-	var sunLong = 93.56
+func TestCalcLeftQuad(t *testing.T) {
+	var expected float64 = 90
+	var sunLong float64 = 93.56
+	var actual = CalcLeftQuad(sunLong)
+	fmt.Println(actual)
+	if !isEqualEnough(actual, expected) {
+		t.Errorf("Expected: %f Actual: %f", actual, expected)
+	}
+}
+func TestCalcRightQuad(t *testing.T) {
+	var expected float64 = -90
+	RA := -86.11412
+	actual := CalcRightQuad(RA)
+	fmt.Println(actual)
+	if !isEqualEnough(actual, expected) {
+		t.Errorf("Expected: %f Actual: %f", actual, expected)
+	}
+}
+func TestRA_ToQuad(t *testing.T) {
+	var expected = 93.886
+	RA := -86.11412
+	sunLong := 93.56
+	actual := RA_ToQuad(RA, sunLong)
+	fmt.Println(actual)
+	if !isEqualEnough(actual, expected) {
+		t.Errorf("Expected: %f Actual: %f", actual, expected)
+	}
+}
+func TestRightAscenion(t *testing.T) {
+	sunLong := 93.56
 	expected := 6.259
 	actual := RightAscenion(sunLong)
 	if !isEqualEnough(actual, expected) {
-		t.Errorf("Right Accension is incorrect actual: %f", actual)
+		t.Errorf("Right Accension is incorrect actual: %f Expected: %f", actual, expected)
 	}
 
+}
+func TestSinDec(t *testing.T) {
+	var sunLong = 93.56
+	expected := .39705
+	actual := sinDec(sunLong)
+	if !isEqualEnough(actual, expected) {
+		t.Errorf("Sin dec is actually : %f", actual)
+	}
+}
+
+func Test_cosDec(t *testing.T) {
+	type args struct {
+		trueLong float64
+	}
+	tests := []struct {
+		name string
+		args args
+		want float64
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := cosDec(tt.args.trueLong); got != tt.want {
+				t.Errorf("cosDec() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }

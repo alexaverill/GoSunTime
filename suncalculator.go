@@ -30,16 +30,35 @@ func SunLongitude(meanAnomaly float64) float64 {
 	}
 	return lng
 }
+func CalcLeftQuad(trueLong float64) float64 {
+	var ninety float64 = 90.0
+	return math.Floor(trueLong/ninety) * ninety
+}
+func CalcRightQuad(RA float64) float64 {
+	var ninety float64 = 90.0
+	return math.Floor(RA/ninety) * ninety
+}
+func RA_ToQuad(RA float64, trueLong float64) float64 {
+	return RA + (CalcLeftQuad(trueLong) - CalcRightQuad(RA))
+}
 func RightAscenion(trueLong float64) float64 {
-	RA := math.Atan(.9176 * math.Tan(trueLong*math.Pi/180) * 180 / math.Pi)
+	var sunTan float64 = math.Tan(trueLong * math.Pi / 180)
+	var innerTan = .91764 * sunTan
+
+	var RA float64 = math.Atan(innerTan) * (180 / math.Pi)
+	RA = RA_ToQuad(RA, trueLong) / 15.0
 	if RA > 360 {
 		RA -= 360
 	} else if RA < 0 {
 		RA += 360
 	}
-	//convert to quadrant of sun
-	Lquad := (math.Floor(trueLong / float64(90))) * float64(90)
-	RAquad := (math.Floor(RA / float64(90))) * float64(90)
-	RA = RA + (Lquad - RAquad)
-	return RA / float64(15)
+	return RA
+}
+func sinDec(trueLong float64) float64 {
+	return .39782 * math.Sin(trueLong*math.Pi/180)
+}
+func cosDec(trueLong float64) float64 {
+	SinDec := sinDec(trueLong)
+	arcSin := math.Asin(SinDec * 180 / math.Pi)
+	return math.Cos(arcSin * math.Pi / 180)
 }
