@@ -1,13 +1,23 @@
 package main
 
 import (
-	"math/big"
+	"math"
 	"testing"
 )
 
 func isEqualEnough(a float64, b float64) bool {
-	result := big.NewFloat(a).Cmp(big.NewFloat(b))
-	return result == 0
+	var absA = math.Abs(a)
+	var absB = math.Abs(b)
+	var diff = math.Abs(a - b)
+	var min float64 = 1e-9
+	var e float64 = 1e-5
+	if a == b {
+		return true
+	}
+	if a == 0 || b == 0 || (absA+absB < min) {
+		return diff < (e * min)
+	}
+	return diff/math.Min((absA+absB), 1e10) < e
 }
 func TestCalculateDayOfYear(t *testing.T) {
 	var day = calculateDayOfYear(6, 25, 1990)
