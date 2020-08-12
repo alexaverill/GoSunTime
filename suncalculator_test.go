@@ -62,7 +62,6 @@ func TestCalcRightQuad(t *testing.T) {
 	var expected float64 = -90
 	RA := -86.11412
 	actual := CalcRightQuad(RA)
-	fmt.Println(actual)
 	if !isEqualEnough(actual, expected) {
 		t.Errorf("Expected: %f Actual: %f", actual, expected)
 	}
@@ -72,7 +71,6 @@ func TestRA_ToQuad(t *testing.T) {
 	RA := -86.11412
 	sunLong := 93.56
 	actual := RA_ToQuad(RA, sunLong)
-	fmt.Println(actual)
 	if !isEqualEnough(actual, expected) {
 		t.Errorf("Expected: %f Actual: %f", actual, expected)
 	}
