@@ -5,7 +5,8 @@ import (
 )
 
 type SunEventInfo struct {
-	hour, minute int
+	Hour, Minute int
+	TimeZone     string
 }
 
 func calculateDayOfYear(month int, day int, year int) int {
@@ -108,6 +109,6 @@ func CalculateSunTime(month, day, year int, zenith, lat, lng float64, sunset boo
 		UTC -= 24
 	}
 	hours, minutes := floatTimeToSplit(UTC)
-	return SunEventInfo{hour: hours, minute: minutes}
+	return SunEventInfo{Hour: hours, Minute: minutes, TimeZone: "UTC"}
 
 }

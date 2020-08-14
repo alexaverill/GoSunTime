@@ -129,10 +129,10 @@ func TestCalcSunTime(t *testing.T) {
 	lng := -74.3
 	zenith := -0.01454
 	actual := CalculateSunTime(month, day, year, zenith, lat, lng, false)
-	expected := SunEventInfo{hour: 9, minute: 26}
-	fmt.Println(actual.hour)
-	fmt.Println(actual.minute)
-	if actual.hour != expected.hour && actual.minute != expected.minute {
+	expected := SunEventInfo{Hour: 9, Minute: 26}
+	fmt.Println(actual.Hour)
+	fmt.Println(actual.Minute)
+	if actual.Hour != expected.Hour && actual.Minute != expected.Minute {
 		t.Errorf("Times do not match!")
 	}
 }
