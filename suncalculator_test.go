@@ -42,7 +42,7 @@ func TestLongitudeHour(t *testing.T) {
 }
 
 func TestSunLong(t *testing.T) {
-	var mean = 176.456
+	var mean = 170.626
 	var expected = 93.56
 	var actual = SunLongitude(mean)
 	if !isEqualEnough(actual, expected) {
@@ -92,7 +92,50 @@ func TestSinDec(t *testing.T) {
 		t.Errorf("Sin dec is actually : %f", actual)
 	}
 }
+func TestCosDec(t *testing.T) {
+	var sunLong = 93.56
+	expected := .91780
+	actual := cosDec(sunLong)
+	if !isEqualEnough(actual, expected) {
+		t.Errorf("Sin dec is actually : %f", actual)
+	}
+}
+func TestCalcSunHour(t *testing.T) {
+	localHour := -.39570
+	expected := 16.446
+	actual := CalculateSunHour(localHour, false)
+	fmt.Printf("%f", actual)
+	if !isEqualEnough(actual, expected) {
+		t.Errorf("Actual: %f Expected: %f", actual, expected)
+	}
+}
+func TestLocalHourAngle(t *testing.T) {
+	lat := 40.9
+	lng := -74.3
+	zenith := -0.01454
+	trueLon := 93.56
+	actual := LocalHourAngle(zenith, lat, lng, trueLon)
+	expected := -.39314
+	if !isEqualEnough(actual, expected) {
+		t.Errorf("Actual: %f Expected: %f", actual, expected)
+	}
 
+}
+func TestCalcSunTime(t *testing.T) {
+	day := 25
+	month := 6
+	year := 1990
+	lat := 40.9
+	lng := -74.3
+	zenith := -0.01454
+	actual := CalculateSunTime(month, day, year, zenith, lat, lng, false)
+	expected := SunEventInfo{hour: 9, minute: 26}
+	fmt.Println(actual.hour)
+	fmt.Println(actual.minute)
+	if actual.hour != expected.hour && actual.minute != expected.minute {
+		t.Errorf("Times do not match!")
+	}
+}
 func Test_cosDec(t *testing.T) {
 	type args struct {
 		trueLong float64
@@ -108,6 +151,43 @@ func Test_cosDec(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := cosDec(tt.args.trueLong); got != tt.want {
 				t.Errorf("cosDec() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_floatTimeToSplit(t *testing.T) {
+	type args struct {
+		time float64
+	}
+	tests := []struct {
+		name  string
+		args  args
+		want  int
+		want1 int
+	}{
+		// TODO: Add test cases.
+		{
+			name:  "test1",
+			args:  args{time: 9.5},
+			want:  9,
+			want1: 30,
+		},
+		{
+			name:  "test2",
+			args:  args{time: 9.44},
+			want:  9,
+			want1: 26,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, got1 := floatTimeToSplit(tt.args.time)
+			if got != tt.want {
+				t.Errorf("floatTimeToSplit() got = %v, want %v", got, tt.want)
+			}
+			if got1 != tt.want1 {
+				t.Errorf("floatTimeToSplit() got1 = %v, want %v", got1, tt.want1)
 			}
 		})
 	}
