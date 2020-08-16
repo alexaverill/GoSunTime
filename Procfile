@@ -1,1 +1,1 @@
-web:./GoSunTime
+web:./GoSunTim
