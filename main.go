@@ -89,7 +89,5 @@ func main() {
 	http.HandleFunc("/sunset", sunset)
 	http.HandleFunc("/sunrise", sunrise)
 	port := os.Getenv("PORT")
-	portStr := ":" + port
-	fmt.Println(portStr)
-	http.ListenAndServe(portStr, nil)
+	http.ListenAndServe(":"+port, nil)
 }
