@@ -1,1 +1,1 @@
-web: ./GoSunTime -p $PORT
+web: ./GoSunTime
