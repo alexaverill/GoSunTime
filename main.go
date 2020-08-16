@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 )
 
@@ -87,5 +88,7 @@ func main() {
 	http.HandleFunc("/test", testJson)
 	http.HandleFunc("/sunset", sunset)
 	http.HandleFunc("/sunrise", sunrise)
-	http.ListenAndServe(":5000", nil)
+	port := os.Getenv("PORT")
+
+	http.ListenAndServe(":"+port, nil)
 }
