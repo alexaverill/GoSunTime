@@ -1,2 +1,1 @@
-web:./bin/GoSunTime
-test:./GoSunTime
+web: ./GoSunTime
