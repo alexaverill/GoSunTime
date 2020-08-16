@@ -84,9 +84,8 @@ func sunset(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
-	fmt.Println("Test")
 	http.HandleFunc("/test", testJson)
 	http.HandleFunc("/sunset", sunset)
 	http.HandleFunc("/sunrise", sunrise)
-	http.ListenAndServe(":8090", nil)
+	http.ListenAndServe(":5000", nil)
 }
