@@ -19,6 +19,10 @@ year = year you want to know about
 
 Response: 
 ```
-{"Hour":1,"Minute":24,"TimeZone":"UTC"}
+{
+    "Hour":1,
+    "Minute":24,
+    "TimeZone":"UTC"
+}
 
 ```
